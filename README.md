@@ -1,10 +1,12 @@
 <h1 align="center"> Computer Monitoring </h1>
 
-    A real-time computer monitoring application using **Spring Boot** for the backend and **Next.js** for the frontend.
+<p align="center">
+  A real-time computer monitoring application using <strong>Spring Boot</strong> for the backend and <strong>Next.js</strong> for the frontend.
+</p>
 
 ## 📌 **1. Introduction**  
 
-    This application monitors computer performance (CPU, RAM, storage, etc.) in real-time. It is designed for system administrators and companies looking to track their machines efficiently.  
+This application monitors computer performance (CPU, RAM, storage, etc.) in real-time. It is designed for system administrators and companies looking to track their machines efficiently.  
 
 ## 🏗 **2. Technologies Used**  
 
