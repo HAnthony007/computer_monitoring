@@ -1,10 +1,10 @@
-<h1 aligh="center"> Computer Monitoring </h1>
+<h1 align="center"> Computer Monitoring </h1>
 
-  <p align="center">A real-time computer monitoring application using **Spring Boot** for the backend and **Next.js** for the frontend</p>
+    A real-time computer monitoring application using **Spring Boot** for the backend and **Next.js** for the frontend.
 
 ## 📌 **1. Introduction**  
 
-  This application monitors computer performance (CPU, RAM, storage, etc.) in real-time. It is designed for system administrators and companies looking to track their machines efficiently.  
+    This application monitors computer performance (CPU, RAM, storage, etc.) in real-time. It is designed for system administrators and companies looking to track their machines efficiently.  
 
 ## 🏗 **2. Technologies Used**  
 
@@ -44,5 +44,5 @@ bun dev
 
 If you have an idea or a suggestion that would make this better, please fork the repository and follow the step below to create a pull request. You can also simply open an issue with the tag "enhancement".
 
-<p align="right"> > RAKOTOARIMANANA Harifetra Anthony</p>
+<p align="right"> RAKOTOARIMANANA Harifetra Anthony</p>
 <p align="right"><a href="#top">Back to top ↑</a></p>
