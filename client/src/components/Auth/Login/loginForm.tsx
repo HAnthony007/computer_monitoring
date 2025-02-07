@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Loader2 } from 'lucide-react'
 import { useRouter } from "next/navigation";
+import axiosInstance from "@/lib/axiosInstance";
 
 export function LoginForm() {
     const router = useRouter();
@@ -31,7 +32,12 @@ export function LoginForm() {
         setIsSubmitting(true)
 
         toast.promise(
-            loginAction(data),
+            axiosInstance.post('/auth/register', data).then((res) => {
+                if (!res.data.success) {
+                    throw new Error(res.data.message || "Registration failed");
+                }
+                return res.data;
+            }),
             {
                 loading: "Logging in...",
                 success: (result) => {
@@ -58,7 +64,7 @@ export function LoginForm() {
             <div className="flex flex-col gap-6">
                 <div>
                     <label htmlFor="email"
-                           className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Email
                     </label>
@@ -74,7 +80,7 @@ export function LoginForm() {
                 </div>
                 <div>
                     <label htmlFor="password"
-                           className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Password
                     </label>
@@ -96,9 +102,9 @@ export function LoginForm() {
                     {
                         isSubmitting ? (
                             <Button size={'lg'} disabled
-                                    className="w-full text-sm font-semibold"
+                                className="w-full text-sm font-semibold"
                             >
-                                <Loader2 className="animate-spin"/>
+                                <Loader2 className="animate-spin" />
                                 Please wait
                             </Button>
                         ) : (

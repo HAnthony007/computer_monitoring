@@ -59,7 +59,7 @@ export function RegisterForm() {
             <div className="flex flex-col gap-6">
                 <div>
                     <label htmlFor="pseudo"
-                           className={errors.pseudo ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.pseudo ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Pseudo
                     </label>
@@ -74,7 +74,7 @@ export function RegisterForm() {
                 </div>
                 <div>
                     <label htmlFor="email"
-                           className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.email ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Email
                     </label>
@@ -90,7 +90,7 @@ export function RegisterForm() {
                 </div>
                 <div>
                     <label htmlFor="password"
-                           className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.password ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Password
                     </label>
@@ -106,7 +106,7 @@ export function RegisterForm() {
 
                 <div>
                     <label htmlFor="confirmPassword"
-                           className={errors.confirmPassword ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
+                        className={errors.confirmPassword ? "text-red-500 text-muted-foreground" : "text-muted-foreground"}
                     >
                         Confirm
                     </label>
@@ -125,15 +125,15 @@ export function RegisterForm() {
                     {
                         isSubmitting ? (
                             <Button size={'lg'} disabled
-                                    className="w-full text-sm font-semibold"
+                                className="w-full text-sm font-semibold"
                             >
-                                <Loader2 className="animate-spin"/>
+                                <Loader2 className="animate-spin" />
                                 Please wait
                             </Button>
                         ) : (
                             <Button size={'lg'}
-                                    type="submit"
-                                    className="w-full text-sm font-semibold"
+                                type="submit"
+                                className="w-full text-sm font-semibold"
                             >
                                 Log in
                             </Button>
