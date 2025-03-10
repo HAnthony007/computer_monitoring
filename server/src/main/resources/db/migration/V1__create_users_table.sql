@@ -1,5 +1,5 @@
 CREATE TABLE users (
-    id VARCHAR(50) PRIMARY KEY,
+    id_user VARCHAR(50) PRIMARY KEY,
     registration_number VARCHAR(50) UNIQUE NOT NULL,
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -8,5 +8,5 @@ CREATE TABLE users (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT INTO users (id, registration_number, username, email, password, role)
-VALUES ('admin_generate_auto007', '000', 'Admin', 'admin@gmail.com', 'admin@123', 'ADMIN');
+INSERT INTO users (id_user, registration_number, username, email, password, role)
+VALUES ('admin_generate_auto007', '000', 'Admin', 'admin@gmail.com', '$2a$10$vCJUswxtGMC56Er0tPh9QuzhgnD0Wc8q0OpEAp1vRN7TbtmRwjT9m', 'ADMIN');

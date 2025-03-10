@@ -32,7 +32,8 @@ import lombok.Setter;
 public class User implements UserDetails {
 
     @Id
-    private String id;
+    @Column(name = "id_user")
+    private String idUser;
 
     @Column(nullable = false, unique = true)
     private String registrationNumber;
@@ -54,7 +55,7 @@ public class User implements UserDetails {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public void generateId() {
-        this.id = role.name().toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "").substring(8);
+        this.idUser = role.name().toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "").substring(8);
     }
 
     public User(CreateUserRequest request) {

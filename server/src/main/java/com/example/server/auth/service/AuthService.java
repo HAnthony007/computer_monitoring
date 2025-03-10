@@ -54,7 +54,7 @@ public class AuthService {
     public UserResponse getSession(HttpServletRequest request) {
         User user = SecurityUtil.getAuthentificatedUser();
         // Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
-        user = userRepository.getReferenceById(user.getId());
+        user = userRepository.getReferenceById(user.getIdUser());
         // return new UserResponse(user, authorities);
         return new UserResponse(user);
     }

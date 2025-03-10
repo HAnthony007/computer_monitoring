@@ -47,7 +47,7 @@ public class UserService {
     @Transactional
     public UserResponse updateUser(UpdateUserRequest request) {
         User user = SecurityUtil.getAuthentificatedUser();
-        user = userRepository.getReferenceById(user.getId());
+        user = userRepository.getReferenceById(user.getIdUser());
         user.update(request);
         user = userRepository.save(user);
         return new UserResponse(user);
@@ -63,6 +63,8 @@ public class UserService {
     //             .orElse(null);
     // }
 
+    // @Transactional
+    // public UserResponse updatePassword()
     public void deleteUser(String id) {
         userRepository.deleteById(id);
     }
