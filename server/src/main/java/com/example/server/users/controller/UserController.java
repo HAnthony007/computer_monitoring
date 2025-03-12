@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,9 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.server.users.User;
 import com.example.server.users.data.CreateUserRequest;
+import com.example.server.users.data.UpdateUserPasswordRequest;
 import com.example.server.users.data.UpdateUserRequest;
 import com.example.server.users.data.UserResponse;
 import com.example.server.users.service.UserService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -30,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody CreateUserRequest request) {
+    public ResponseEntity<UserResponse> createUser(@Valid @RequestBody CreateUserRequest request) {
         User user = userService.createUser(request);
         UserResponse userResponse = new UserResponse(user);
         return ResponseEntity.ok(userResponse);
@@ -73,7 +77,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@RequestBody UpdateUserRequest request) {
+    public ResponseEntity<UserResponse> updateUser(@Valid @RequestBody UpdateUserRequest request) {
         UserResponse user = userService.updateUser(request);
         return ResponseEntity.ok(user);
     }
@@ -86,11 +90,12 @@ public class UserController {
      * @param id
      * @return
      */
-    // @PutMapping("/password")
-    // public ResponseEntity<UserResponse> updatePassword(@RequestBody UpdateUserpas request) {
-    //     UserResponse user = userService.updatePassword(request);
-    //     return ResponseEntity.ok(user);
-    // }
+    @PatchMapping("/password")
+    public ResponseEntity<UserResponse> updatePassword(@Valid @RequestBody UpdateUserPasswordRequest request) {
+        UserResponse user = userService.updatePassword(request);
+        return ResponseEntity.ok(user);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable String id) {
         userService.deleteUser(id);

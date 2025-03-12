@@ -12,8 +12,8 @@ public class PasswordMatchValidator implements ConstraintValidator<PasswordMatch
 
     @Override
     public void initialize(PasswordMatch constraintAnnotation) {
-        passwordFieldName = constraintAnnotation.passwordFieldName();
-        passwordMatchFieldName = constraintAnnotation.passwordMatchFieldName();
+        passwordFieldName = constraintAnnotation.passwordField();
+        passwordMatchFieldName = constraintAnnotation.passwordConfirmationField();
     }
 
     @Override

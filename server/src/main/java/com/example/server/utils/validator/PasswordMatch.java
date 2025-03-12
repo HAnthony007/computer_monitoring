@@ -20,7 +20,7 @@ public @interface PasswordMatch {
 
     Class<?>[] payload() default {};
 
-    String passwordFieldName();
+    String passwordField();
 
-    String passwordMatchFieldName();
+    String passwordConfirmationField();
 }

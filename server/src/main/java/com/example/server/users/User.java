@@ -79,6 +79,11 @@ public class User implements UserDetails {
         this.registrationNumber = request.getRegistrationNumber();
     }
 
+    public void updatePassword(String newPassword) {
+        PasswordEncoder passwordEncoder = ApplicationContextProvider.bean(PasswordEncoder.class);
+        this.password = passwordEncoder.encode(newPassword);
+    }
+
     @Override
     public String getUsername() {
         return username;

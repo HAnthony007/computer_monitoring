@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@PasswordMatch(passwordFieldName = "password", passwordMatchFieldName = "passwordMatch")
+@PasswordMatch(passwordField = "password", passwordConfirmationField = "passwordMatch")
 @Builder
 @Client
 public class CreateUserRequest {
@@ -35,7 +35,6 @@ public class CreateUserRequest {
     @Length(min = 8)
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$", message = "must contain at least one uppercase letter, one lowercase letter, and one digit.")
     private String password;
-
     private String passwordConfirmation;
 
     private Role role;
