@@ -1,3 +1,9 @@
+import { Suspense } from "react";
+
 export default function LoginPage() {
-    return <h1>Login</h1>;
+    return (
+        <Suspense fallback={<div>Hello loading...</div>}>
+            <h1>Login</h1>;
+        </Suspense>
+    );
 }

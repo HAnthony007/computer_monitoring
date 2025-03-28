@@ -34,9 +34,9 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning className="h-full">
             <body
                 className={cn(
-                    geistMono.variable,
                     geistSans.variable,
-                    "antialiased h-full flex flex-col gap-6"
+                    geistMono.variable,
+                    "antialiased h-full flex flex-col gap-2"
                 )}
             >
                 <NextTopLoader showSpinner={false} />
