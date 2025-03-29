@@ -6,7 +6,7 @@ export default function NotFound() {
     const router = useRouter();
 
     return (
-        <div className="grid h-screen place-content-center bg-white px-4">
+        <div className="grid min-h-full place-content-center bg-white px-4">
             <div className="text-center">
                 <h1 className="text-9xl font-black text-gray-200">404</h1>
 
@@ -20,7 +20,7 @@ export default function NotFound() {
 
                 <Button
                     onClick={() => router.back()}
-                    className="mt-6 inline-block rounded-sm bg-indigo-600 px-5 py-3 text-sm font-medium text-white hover:bg-indigo-700 focus:ring-3 focus:outline-hidden"
+                    className="mt-6 inline-block rounded-sm px-5 text-sm font-medium focus:ring-3 focus:outline-hidden"
                 >
                     Go Back
                 </Button>

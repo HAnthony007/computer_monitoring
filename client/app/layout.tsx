@@ -36,7 +36,7 @@ export default function RootLayout({
                 className={cn(
                     geistSans.variable,
                     geistMono.variable,
-                    "antialiased h-full flex flex-col gap-2"
+                    "antialiased h-full flex flex-col "
                 )}
             >
                 <NextTopLoader showSpinner={false} />
@@ -47,7 +47,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <HeaderLayout />
-                    <Toaster position="top-right" richColors closeButton />
+                    <Toaster position="top-left" richColors closeButton />
                     <main className="flex-1">{children}</main>
                     <Separator />
                     <FooterLayout />
