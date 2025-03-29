@@ -47,7 +47,7 @@ export default function RootLayout({
                     disableTransitionOnChange
                 >
                     <HeaderLayout />
-                    <Toaster position="top-left" richColors closeButton />
+                    <Toaster position="bottom-right" richColors closeButton />
                     <main className="flex-1">{children}</main>
                     <Separator />
                     <FooterLayout />
