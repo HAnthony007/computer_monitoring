@@ -1,5 +1,5 @@
-import { FooterLayout } from "@/components/layout/footer/footer-layout";
-import { HeaderLayout } from "@/components/layout/header/header-layout";
+import { FooterWrapper } from "@/components/layout/footer-wrapper";
+import { HeaderWrapper } from "@/components/layout/header-wrapper";
 import { Separator } from "@/components/ui/separator";
 import { ThemeProvider } from "@/features/providers/theme-provider";
 import { cn } from "@/lib/utils";
@@ -46,11 +46,11 @@ export default function RootLayout({
                     enableSystem
                     disableTransitionOnChange
                 >
-                    <HeaderLayout />
+                    <HeaderWrapper />
                     <Toaster position="top-left" richColors closeButton />
                     <main className="flex-1">{children}</main>
                     <Separator />
-                    <FooterLayout />
+                    <FooterWrapper />
                 </ThemeProvider>
             </body>
         </html>
