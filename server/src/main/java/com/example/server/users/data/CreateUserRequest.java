@@ -14,7 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@PasswordMatch(passwordField = "password", passwordConfirmationField = "passwordMatch")
+@PasswordMatch(passwordField = "password", passwordConfirmationField = "passwordConfirmation")
 @Builder
 @Client
 public class CreateUserRequest {

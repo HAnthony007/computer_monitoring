@@ -24,7 +24,7 @@ import com.example.server.users.service.UserService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
 
     private final UserService userService;
@@ -41,8 +41,10 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        List<UserResponse> userResponses = users.stream().map(UserResponse::new).toList();
+        return ResponseEntity.ok(userResponses);
     }
 
     @GetMapping("/{id}")

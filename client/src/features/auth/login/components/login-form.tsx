@@ -3,13 +3,18 @@
 import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
+import { useAuthStore } from "@/store/authStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginFormSchemas, loginSchemaType } from "../schemas/login-schema";
+
 export const LoginForm = () => {
+    const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
     const {
@@ -17,31 +22,39 @@ export const LoginForm = () => {
         handleSubmit,
         formState: { errors },
         reset,
+        setError,
     } = useForm<loginSchemaType>({
         resolver: zodResolver(loginFormSchemas),
         mode: "onBlur",
     });
-    const onSubmit = (data: loginSchemaType) => {
+
+    const login = useAuthStore((state) => state.login);
+
+    const onSubmit = async (data: loginSchemaType) => {
         setIsSubmitting(true);
-        toast.promise(
-            async () => {
-                await new Promise((resolve) => setTimeout(resolve, 2000));
-            },
-            {
-                loading: "Logging in...",
-                success: () => {
-                    reset();
-                    console.log(data);
-                    setIsSubmitting(false);
-                    return "Login successful!";
-                },
-                error: () => {
-                    setIsSubmitting(false);
-                    return "Login failed. Please try again.";
-                },
+        try {
+            await login(data.email, data.password);
+            reset();
+            router.push("/dashboard");
+            toast.success("Login successful!");
+        } catch (error: any) {
+            if (error.status === 404) {
+                setError("email", {
+                    type: "manual",
+                    message: "User not found",
+                });
+            } else if (error.status === 401) {
+                setError("password", {
+                    type: "manual",
+                    message: "Invalid password",
+                });
             }
-        );
+            toast.error("Login failed. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
+
     return (
         <form className="grid gap-10" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
@@ -79,8 +92,7 @@ export const LoginForm = () => {
                     >
                         Password
                     </label>
-                    <Input
-                        type="password"
+                    <PasswordInput
                         {...register("password")}
                         placeholder="Your password"
                     />

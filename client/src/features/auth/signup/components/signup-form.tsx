@@ -3,6 +3,7 @@
 import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -113,8 +114,7 @@ export const SignupForm = () => {
                     >
                         Password
                     </label>
-                    <Input
-                        type="password"
+                    <PasswordInput
                         {...register("password")}
                         placeholder="Your password"
                     />
@@ -136,8 +136,7 @@ export const SignupForm = () => {
                     >
                         Confirm
                     </label>
-                    <Input
-                        type="password"
+                    <PasswordInput
                         {...register("confirmPassword")}
                         placeholder="Confirm your password"
                     />

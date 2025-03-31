@@ -37,8 +37,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(customizer -> {
             customizer
-                    .requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
-                    .requestMatchers(antMatcher(HttpMethod.GET, "/users")).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.GET, "/api/users")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.GET, "/api/hello")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.POST, "/api/auth/login")).permitAll()
                     .anyRequest().authenticated();
@@ -58,7 +58,7 @@ public class SecurityConfiguration {
         });
 
         http.cors(cors -> {
-            // cors.configurationSource(CorsConfigurationSource());
+            cors.configurationSource(corsConfigurationSource());
         });
         return http.build();
     }
