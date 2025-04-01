@@ -1,4 +1,5 @@
 "use client";
+import { SectionCards } from "@/features/dashboard/components/section-cards";
 import { useAuthStore } from "@/store/authStore";
 import Loading from "@app/loading";
 import { useParams, useRouter } from "next/navigation";
@@ -23,9 +24,5 @@ export default function PagePage() {
         return <Loading />;
     }
 
-    return (
-        <h1 className="h-full ">
-            Bienvennue: {user?.username} sur votre dashboard
-        </h1>
-    );
+    return <SectionCards />;
 }

@@ -6,6 +6,8 @@ import {
     Loader2,
     LucideProps,
     Shield,
+    TrendingDownIcon,
+    TrendingUpIcon,
     UserCog2Icon,
     Users2Icon,
 } from "lucide-react";
@@ -15,6 +17,8 @@ export const Icons = {
     users: Users2Icon,
     calendar: CalendarDaysIcon,
     spinner: Loader2,
+    trendingUp: TrendingUpIcon,
+    trendingDown: TrendingDownIcon,
     superAdmin: Shield,
     admin: UserCog2Icon,
     manager: Users2Icon,
