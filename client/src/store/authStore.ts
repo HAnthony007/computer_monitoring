@@ -43,6 +43,8 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     logout: async () => {
         await axiosInstance.post("/auth/logout");
+        document.cookie =
+            "JSESSIONID=; Max-Age=0; path=/; HttpOnly; Secure; SameSite=Strict";
         set({ user: null });
     },
 }));

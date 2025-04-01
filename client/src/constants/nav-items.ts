@@ -3,7 +3,7 @@ import { NavItem } from "@/types/sidebar";
 export const navItems: NavItem[] = [
     {
         title: "Dashboard",
-        url: "/admin/dashboard",
+        url: "/dashboard",
         icon: "dashboard",
         isActive: false,
         shortcut: ["d", "d"],

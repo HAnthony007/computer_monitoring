@@ -11,9 +11,13 @@ import {
     DropdownMenuShortcut,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuthStore } from "@/store/authStore";
 import { toast } from "sonner";
+import { useHandleLogout } from "../auth/logout";
 
 export function UserNav() {
+    const { user } = useAuthStore();
+    const handleLogout = useHandleLogout();
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -23,7 +27,9 @@ export function UserNav() {
                 >
                     <Avatar className="h-8 w-8">
                         <AvatarImage src={""} alt={"Photo"} />
-                        <AvatarFallback>U</AvatarFallback>
+                        <AvatarFallback>
+                            {user?.username?.slice(0, 2).toLocaleUpperCase()}
+                        </AvatarFallback>
                     </Avatar>
                 </Button>
             </DropdownMenuTrigger>
@@ -31,10 +37,10 @@ export function UserNav() {
                 <DropdownMenuLabel className="font-normal">
                     <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">
-                            Harifetra Anthony
+                            {user?.registrationNumber} {user?.username}
                         </p>
                         <p className="text-xs leading-none text-muted-foreground">
-                            anthonyr.techno@gmail.com
+                            {user?.email}
                         </p>
                     </div>
                 </DropdownMenuLabel>
@@ -46,17 +52,17 @@ export function UserNav() {
                         <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        Billing
-                        <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
                         Settings
                         <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>New Team</DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => toast.success("Logged out")}>
+                <DropdownMenuItem
+                    onClick={() => {
+                        toast.success("Logout successfully");
+                        handleLogout();
+                    }}
+                >
                     Log out
                     <DropdownMenuShortcut>⇧⌘L</DropdownMenuShortcut>
                 </DropdownMenuItem>

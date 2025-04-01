@@ -31,23 +31,29 @@ import {
     SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { navItems } from "@/constants/nav-items";
+import { useAuthStore } from "@/store/authStore";
 import {
     BadgeCheck,
     Bell,
     ChevronRight,
     ChevronsUpDown,
-    CreditCard,
     LogOut,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 import { toast } from "sonner";
+import { useHandleLogout } from "../auth/logout";
 
-export default function AppSidebar() {
+export default function AppSidebar({
+    ...props
+}: React.ComponentProps<typeof Sidebar>) {
     const pathname = usePathname();
+    const { user } = useAuthStore();
+    const handleLogout = useHandleLogout();
 
     return (
-        <Sidebar collapsible="icon" variant="sidebar" className="">
+        <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>
                 <div className="flex gap-2 text-sidebar-accent-foreground">
                     <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
@@ -101,13 +107,11 @@ export default function AppSidebar() {
                                                             asChild
                                                             isActive={
                                                                 pathname ===
-                                                                subItem.url
+                                                                `/${user?.role}${item.url}`
                                                             }
                                                         >
                                                             <Link
-                                                                href={
-                                                                    subItem.url
-                                                                }
+                                                                href={`/${user?.role}${subItem.url}`}
                                                             >
                                                                 <span>
                                                                     {
@@ -127,9 +131,14 @@ export default function AppSidebar() {
                                     <SidebarMenuButton
                                         asChild
                                         tooltip={item.title}
-                                        isActive={pathname === item.url}
+                                        isActive={
+                                            pathname ===
+                                            `/${user?.role}${item.url}`
+                                        }
                                     >
-                                        <Link href={item.url}>
+                                        <Link
+                                            href={`/${user?.role}${item.url}`}
+                                        >
                                             <Icon />
                                             <span>{item.title}</span>
                                         </Link>
@@ -153,15 +162,18 @@ export default function AppSidebar() {
                                     <Avatar className="h-8 w-8 rounded-lg">
                                         <AvatarImage alt={"Photo"} />
                                         <AvatarFallback className="rounded-lg">
-                                            CN
+                                            {user?.username
+                                                ?.slice(0, 2)
+                                                .toLocaleUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="grid flex-1 text-left text-sm leading-tight">
                                         <span className="truncate font-semibold">
-                                            RAKOTOARIMANANA Harifetra Anthony
+                                            {user?.registrationNumber}{" "}
+                                            {user?.username}
                                         </span>
                                         <span className="truncate text-xs">
-                                            anthonyr.techno@gmail.com
+                                            {user?.email}
                                         </span>
                                     </div>
                                     <ChevronsUpDown className="ml-auto size-4" />
@@ -181,19 +193,22 @@ export default function AppSidebar() {
                                                 alt={"Photo"}
                                             />
                                             <AvatarFallback className="rounded-lg">
-                                                CN
+                                                {user?.username
+                                                    ?.slice(0, 2)
+                                                    .toLocaleUpperCase()}
                                             </AvatarFallback>
                                             <AvatarFallback className="rounded-lg">
-                                                Harifetra Anthony
+                                                {user?.registrationNumber}{" "}
+                                                {user?.username}
                                             </AvatarFallback>
                                         </Avatar>
                                         <div className="grid flex-1 text-left text-sm leading-tight">
                                             <span className="truncate font-semibold">
-                                                RAKOTOARIMANANA Harifetra
-                                                Anthony
+                                                {user?.registrationNumber}{" "}
+                                                {user?.username}
                                             </span>
                                             <span className="truncate text-xs">
-                                                anthonyr.techno@gmail.com
+                                                {user?.email}
                                             </span>
                                         </div>
                                     </div>
@@ -206,14 +221,16 @@ export default function AppSidebar() {
                                         <BadgeCheck /> Account
                                     </DropdownMenuItem>
                                     <DropdownMenuItem>
-                                        <CreditCard /> Billing
-                                    </DropdownMenuItem>
-                                    <DropdownMenuItem>
                                         <Bell /> Notifications
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem
-                                        onClick={() => toast.success("Log out")}
+                                        onClick={() => {
+                                            toast.success(
+                                                "Logout successfully"
+                                            );
+                                            handleLogout();
+                                        }}
                                     >
                                         <LogOut /> Log Out
                                     </DropdownMenuItem>

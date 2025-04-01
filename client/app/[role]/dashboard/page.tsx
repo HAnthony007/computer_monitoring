@@ -1,5 +1,6 @@
 "use client";
 import { useAuthStore } from "@/store/authStore";
+import Loading from "@app/loading";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -19,7 +20,7 @@ export default function PagePage() {
     }, [user, isLoading, role, router]);
 
     if (isLoading) {
-        return <h1 className="h-full ">Loading...</h1>;
+        return <Loading />;
     }
 
     return (
