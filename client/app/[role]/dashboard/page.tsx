@@ -5,7 +5,7 @@ import Loading from "@app/loading";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-export default function PagePage() {
+export default function DashboardPage() {
     const { user, isLoading } = useAuthStore();
     const router = useRouter();
     const { role } = useParams();

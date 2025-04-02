@@ -1,5 +1,6 @@
 import { Separator } from "@/components/ui/separator";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import Breadcumbs from "@/features/app/breadcrumb";
 import { ToggleTheme } from "@/features/themes/theme-toogle";
 
 export function SiteHeader() {
@@ -11,7 +12,8 @@ export function SiteHeader() {
                     orientation="vertical"
                     className="mx-2 data-[orientation=vertical]:h-4"
                 />
-                <h1 className="text-base font-medium">Documents</h1>
+                {/* <h1 className="text-base font-medium">Documents</h1> */}
+                <Breadcumbs />
                 <div className="ml-auto flex items-center gap-2">
                     <ToggleTheme />
                 </div>

@@ -2,6 +2,7 @@ import { FooterWrapper } from "@/components/layout/footer-wrapper";
 import { HeaderWrapper } from "@/components/layout/header-wrapper";
 import { Separator } from "@/components/ui/separator";
 import { ThemeProvider } from "@/features/providers/theme-provider";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
@@ -25,12 +26,14 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html
-            lang="en"
-            suppressHydrationWarning
-            className={`${geist.className} h-full`}
-        >
-            <body className={"h-full flex flex-col "}>
+        <html lang="en" suppressHydrationWarning className="h-full">
+            <body
+                suppressHydrationWarning
+                className={cn(
+                    geist.className,
+                    "antialiased h-full flex flex-col"
+                )}
+            >
                 <NextTopLoader showSpinner={false} />
                 <ThemeProvider
                     attribute="class"

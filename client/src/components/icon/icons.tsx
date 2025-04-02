@@ -1,4 +1,5 @@
 import {
+    AlertCircleIcon,
     BanknoteIcon,
     CalendarDaysIcon,
     GalleryVerticalEndIcon,
@@ -13,6 +14,7 @@ import {
 } from "lucide-react";
 
 export const Icons = {
+    alertCircle: AlertCircleIcon,
     dashboard: LayoutDashboardIcon,
     users: Users2Icon,
     calendar: CalendarDaysIcon,
