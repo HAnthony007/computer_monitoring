@@ -1,0 +1,7 @@
+CREATE TABLE computers (
+    id_computer VARCHAR(50) PRIMARY KEY,
+    hostname VARCHAR(50) NOT NULL,
+    ip_adress VARCHAR(255) UNIQUE NOT NULL,
+    os VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

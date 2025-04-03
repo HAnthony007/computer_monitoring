@@ -37,10 +37,12 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(customizer -> {
             customizer
-                    .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.GET, "/api/users")).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.GET, "/api/hello")).permitAll()
                     .requestMatchers(antMatcher(HttpMethod.POST, "/api/auth/login")).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.GET, "/api/monitoring")).permitAll()
+                    .requestMatchers(antMatcher(HttpMethod.POST, "/api/monitoring")).permitAll()
                     .anyRequest().authenticated();
         });
 
