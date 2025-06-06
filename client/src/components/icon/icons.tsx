@@ -10,6 +10,7 @@ import {
     TrendingDownIcon,
     TrendingUpIcon,
     UserCog2Icon,
+    UserPlus2Icon,
     Users2Icon,
 } from "lucide-react";
 
@@ -17,6 +18,7 @@ export const Icons = {
     alertCircle: AlertCircleIcon,
     dashboard: LayoutDashboardIcon,
     users: Users2Icon,
+    addUser: UserPlus2Icon,
     calendar: CalendarDaysIcon,
     spinner: Loader2,
     trendingUp: TrendingUpIcon,

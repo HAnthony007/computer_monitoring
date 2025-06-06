@@ -1,26 +1,12 @@
-"use client";
+"use client"
 import { SectionCards } from "@/features/dashboard/components/section-cards";
-import { useAuthStore } from "@/store/authStore";
 import Loading from "@app/loading";
-import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useRequireAuth } from "../../../src/hooks/useRequireAuth";
 
 export default function DashboardPage() {
-    const { user, isLoading } = useAuthStore();
-    const router = useRouter();
-    const { role } = useParams();
+    const { isLoading: isLoadingStats, user: statsUser } = useRequireAuth();
 
-    useEffect(() => {
-        if (!isLoading && user) {
-            if (user.role !== role) {
-                router.push(`/${user.role}/dashboard`);
-            }
-        } else if (!isLoading && !user) {
-            router.push("/login");
-        }
-    }, [user, isLoading, role, router]);
-
-    if (isLoading) {
+    if (isLoadingStats) {
         return <Loading />;
     }
 

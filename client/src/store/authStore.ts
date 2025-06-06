@@ -7,7 +7,7 @@ type AuthState = {
     isLoading: boolean;
     fetchUser: () => Promise<void>;
     // login: (data: User) => Promise<void>;
-    login: (email: string, password: string) => Promise<void>;
+    login: (email: string, password: string) => Promise<any>;
     logout: () => Promise<void>;
 };
 

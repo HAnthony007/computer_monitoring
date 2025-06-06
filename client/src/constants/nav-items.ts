@@ -11,7 +11,7 @@ export const navItems: NavItem[] = [
     },
     {
         title: "Users",
-        url: "#",
+        url: "/users",
         icon: "users",
         isActive: false,
         shortcut: ["u", "u"],
