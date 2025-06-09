@@ -14,4 +14,5 @@ export function useRedirectIfAuthentificated() {
             router.replace(`/${user.role}/dashboard`);
         }
     }, [user, isLoading, fetchUser, router]);
+    return { isLoading };
 }

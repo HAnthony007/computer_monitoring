@@ -12,8 +12,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginFormSchemas, loginSchemaType } from "../schemas/login-schema";
+import { useRedirectIfAuthentificated } from "@/hooks/useRedirectIfAuthentificated";
+import Loading from "@app/loading";
 
 export const LoginForm = () => {
+    const { isLoading } = useRedirectIfAuthentificated();
     const router = useRouter();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -54,6 +57,10 @@ export const LoginForm = () => {
             setIsSubmitting(false);
         }
     };
+
+    if (isLoading) {
+        return <Loading />;
+    }
 
     return (
         <form className="grid gap-10" onSubmit={handleSubmit(onSubmit)}>

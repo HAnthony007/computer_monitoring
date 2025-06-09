@@ -14,9 +14,12 @@ import {
     registerFormSchemas,
     registerSchemaType,
 } from "../schemas/signup-schema";
+import { useRedirectIfAuthentificated } from "@/hooks/useRedirectIfAuthentificated";
+import Loading from "@app/loading";
 
 export const SignupForm = () => {
     const router = useRouter();
+    const { isLoading } = useRedirectIfAuthentificated();
     const {
         register,
         handleSubmit,
@@ -55,6 +58,10 @@ export const SignupForm = () => {
             }
         );
     };
+
+    if (isLoading) {
+        return <Loading />;
+    }
     return (
         <form className="grid gap-10" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">

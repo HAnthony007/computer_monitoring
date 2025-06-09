@@ -15,4 +15,5 @@ export function useAuthGuard() {
             router.replace("/login");
         }
     }, [user, isLoading, fetchUser, router]);
+    return { isLoading };
 }
