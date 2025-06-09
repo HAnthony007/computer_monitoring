@@ -1,10 +1,12 @@
 "use client"
-import { useRequireAuth } from "../../src/hooks/useRequireAuth";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { useAuthStore } from "@/store/authStore";
 import Loading from "@app/loading";
 
 export default function MainPage() {
-    const { isLoading: isLoadingStats } = useRequireAuth();
-    if (isLoadingStats) {
-        return <Loading />;
+    useAuthGuard();
+    const { user, isLoading } = useAuthStore()
+    if (isLoading || !user) {
+        return <Loading />
     }
 }

@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/layout/app/header/site-header";
 import { FooterLayout } from "@/components/layout/site/footer/footer-layout";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/features/app/sidebar-app";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { useAuthStore } from "@/store/authStore";
 import Loading from "@app/loading";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function MainLayout({
 }: {
     children: React.ReactNode;
 }) {
+    useAuthGuard();
     const { user, isLoading, fetchUser } = useAuthStore();
     const router = useRouter();
     const [hasMounted, setHasMounted] = useState(false);

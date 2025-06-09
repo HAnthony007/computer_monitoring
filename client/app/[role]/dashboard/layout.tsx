@@ -1,3 +1,6 @@
+"use client"
+import { useAuthGuard } from "@/hooks/useAuthGuard";
+
 export default function DashboardLayout({
     children,
     bar_stats,
@@ -5,6 +8,7 @@ export default function DashboardLayout({
     children: React.ReactNode;
     bar_stats: React.ReactNode;
 }) {
+    useAuthGuard();
     return (
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             {children}
