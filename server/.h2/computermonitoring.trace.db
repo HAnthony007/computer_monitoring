@@ -1,0 +1,6 @@
+2025-11-01 14:50:28.855743+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM cpu memory [*]network"; SQL statement:
+SELECT * FROM cpu memory network [42000-232]
+2025-11-01 14:50:49.856295+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * [*]FROMcpu  network"; SQL statement:
+SELECT * FROMcpu  network [42000-232]
