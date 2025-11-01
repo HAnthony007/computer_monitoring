@@ -5,4 +5,4 @@ CREATE TABLE memory (
     used_memory BIGINT NOT NULL,
     free_memory BIGINT NOT NULL,
     recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
