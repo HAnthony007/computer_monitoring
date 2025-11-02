@@ -1,43 +1,81 @@
 use sysinfo::{Disks, DiskKind};
 
 fn is_desired_mount(mount_point: &str) -> bool {
-	// Always keep root
-	if mount_point == "/" { return true; }
-
-	// Drop hidden/system snapshots
-	if mount_point.starts_with("/.") { return false; }
-
-	// System and runtime mounts to ignore entirely
-	let sys_prefixes = [
-		"/proc",
-		"/sys",
-		"/dev",
-		"/run",
-		"/snap",
-		"/var/lib/docker",
-		"/var/lib/containers",
-		"/var/snap",
-		"/tmp",
-	];
-	if sys_prefixes.iter().any(|p| mount_point == *p || mount_point.starts_with(&format!("{}/", p))) {
+	// Windows: include drive roots like "C:\" (or with forward slash variant)
+	#[cfg(target_os = "windows")]
+	{
+		let mp = mount_point.replace('/', "\\");
+		let bytes = mp.as_bytes();
+		if bytes.len() >= 2 && bytes[1] == b':' {
+			// e.g., C: or C:\
+			return true;
+		}
 		return false;
 	}
 
-	// Allow typical extra disks: mounts under /mnt or /media
-	if mount_point.starts_with("/mnt/") || mount_point.starts_with("/media/") { return true; }
+	// macOS: keep "/" and volumes under "/Volumes/..."; apply similar top-level filtering as Linux
+	#[cfg(target_os = "macos")]
+	{
+		if mount_point == "/" { return true; }
+		if mount_point.starts_with("/Volumes/") { return true; }
 
-	// Only consider top-level mounts like /data, /srv, etc., but exclude core OS dirs
-	// Extract first segment after '/'
-	let seg = mount_point.trim_start_matches('/').split('/').next().unwrap_or("");
-	let depth = mount_point.matches('/').count(); // '/' count: '/' -> 1, '/data' -> 1, '/data/x' -> 2+
-	let excluded_top = [
-		"home", "boot", "usr", "var", "etc", "bin", "sbin", "lib", "lib64", "root", "opt",
-	];
-	if depth == 1 && !excluded_top.contains(&seg) && !seg.is_empty() {
-		return true; // e.g., /data, /srv, /storage
+		if mount_point.starts_with("/.") { return false; }
+		let sys_prefixes = [
+			"/proc", "/sys", "/dev", "/run", "/tmp",
+		];
+		if sys_prefixes.iter().any(|p| mount_point == *p || mount_point.starts_with(&format!("{}/", p))) {
+			return false;
+		}
+		let seg = mount_point.trim_start_matches('/').split('/').next().unwrap_or("");
+		let depth = mount_point.matches('/').count();
+		let excluded_top = [
+			"System", "Users", "Volumes", "private", "usr", "var", "etc", "bin", "sbin", "opt", "tmp",
+		];
+		if depth == 1 && !excluded_top.contains(&seg) && !seg.is_empty() { return true; }
+		return false;
 	}
 
-	false
+	// Default (Linux/others): previous Linux-centric rules
+	#[cfg(not(any(target_os = "windows", target_os = "macos")))]
+	{
+		// Always keep root
+		if mount_point == "/" { return true; }
+
+		// Drop hidden/system snapshots
+		if mount_point.starts_with("/.") { return false; }
+
+		// System and runtime mounts to ignore entirely
+		let sys_prefixes = [
+			"/proc",
+			"/sys",
+			"/dev",
+			"/run",
+			"/snap",
+			"/var/lib/docker",
+			"/var/lib/containers",
+			"/var/snap",
+			"/tmp",
+		];
+		if sys_prefixes.iter().any(|p| mount_point == *p || mount_point.starts_with(&format!("{}/", p))) {
+			return false;
+		}
+
+		// Allow typical extra disks: mounts under /mnt or /media
+		if mount_point.starts_with("/mnt/") || mount_point.starts_with("/media/") { return true; }
+
+		// Only consider top-level mounts like /data, /srv, etc., but exclude core OS dirs
+		// Extract first segment after '/'
+		let seg = mount_point.trim_start_matches('/').split('/').next().unwrap_or("");
+		let depth = mount_point.matches('/').count(); // '/' count: '/' -> 1, '/data' -> 1, '/data/x' -> 2+
+		let excluded_top = [
+			"home", "boot", "usr", "var", "etc", "bin", "sbin", "lib", "lib64", "root", "opt",
+		];
+		if depth == 1 && !excluded_top.contains(&seg) && !seg.is_empty() {
+			return true; // e.g., /data, /srv, /storage
+		}
+
+		return false;
+	}
 }
 
 fn is_virtual_fs(fs: &str) -> bool {
