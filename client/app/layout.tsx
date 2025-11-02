@@ -1,7 +1,7 @@
 import { FooterWrapper } from "@/components/layout/footer-wrapper";
 import { HeaderWrapper } from "@/components/layout/header-wrapper";
 import { Separator } from "@/components/ui/separator";
-import { ThemeProvider } from "@/features/providers/theme-provider";
+import Providers from "@/features/providers/providers";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
@@ -26,7 +26,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning className="h-full">
+        <html lang="en" suppressHydrationWarning className="h-full text-2xl">
             <body
                 suppressHydrationWarning
                 className={cn(
@@ -35,18 +35,13 @@ export default function RootLayout({
                 )}
             >
                 <NextTopLoader showSpinner={false} />
-                <ThemeProvider
-                    attribute="class"
-                    defaultTheme="system"
-                    enableSystem
-                    disableTransitionOnChange
-                >
+                <Providers>
                     <HeaderWrapper />
-                    <Toaster position="top-left" richColors closeButton />
+                    <Toaster position="top-right" richColors closeButton />
                     <main className="flex-1">{children}</main>
                     <Separator />
                     <FooterWrapper />
-                </ThemeProvider>
+                </Providers>
             </body>
         </html>
     );

@@ -1,5 +1,6 @@
 import axiosInstance from "@/lib/axiosInstance";
 import { User } from "@/types/User";
+import { AxiosResponse } from "axios";
 import { create } from "zustand";
 
 type AuthState = {
@@ -7,7 +8,7 @@ type AuthState = {
     isLoading: boolean;
     fetchUser: () => Promise<void>;
     // login: (data: User) => Promise<void>;
-    login: (email: string, password: string) => Promise<any>;
+    login: (email: string, password: string) => Promise<AxiosResponse<User>>;
     logout: () => Promise<void>;
 };
 
@@ -35,9 +36,16 @@ export const useAuthStore = create<AuthState>((set) => ({
             });
             set({ user: response.data });
             return response;
-        } catch (error: any) {
+        } catch (error: unknown) {
             console.log(error);
-            throw error.response?.data || "Login failed. Please try again.";
+            if (error && typeof error === "object" && "response" in error) {
+                const axiosError = error as { response?: { data?: unknown } };
+                throw (
+                    axiosError.response?.data ||
+                    "Login failed. Please try again."
+                );
+            }
+            throw "Login failed. Please try again.";
         }
     },
 

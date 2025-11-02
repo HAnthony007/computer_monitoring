@@ -1,7 +1,7 @@
-"use client"
+"use client";
 import { SectionCards } from "@/features/dashboard/components/section-cards";
-import Loading from "@app/loading";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import Loading from "@app/loading";
 
 export default function DashboardPage() {
     const { isLoading } = useAuthGuard();
