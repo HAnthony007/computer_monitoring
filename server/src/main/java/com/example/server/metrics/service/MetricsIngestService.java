@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.server.metrics.data.MetricsBatchRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class MetricsIngestService {
 
     private final JdbcClient jdbcClient;
+    private static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Transactional
     public void ingest(String computerId, MetricsBatchRequest req) {
@@ -32,14 +34,21 @@ public class MetricsIngestService {
         if (req.getNetwork() != null && !req.getNetwork().isEmpty()) {
             batchNetwork(computerId, req.getNetwork());
         }
+        if (req.getProcesses() != null && !req.getProcesses().isEmpty()) {
+            batchProcesses(computerId, req.getProcesses());
+        }
     }
 
     private void batchCpu(String computerId, List<MetricsBatchRequest.CpuItem> items) {
-        String sql = "INSERT INTO cpu (id_cpu, id_computer, cpu_name, usage_percent, temperature, recorded_at) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO cpu (id_cpu, id_computer, cpu_name, usage_percent, temperature, model_name, core_count, per_core_usage, recorded_at) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         for (var i : items) {
             String name = i.getCpu_name() != null && !i.getCpu_name().isBlank() ? i.getCpu_name() : "cpu";
             Double usage = i.getUsage_percent() != null ? i.getUsage_percent() : 0.0d;
+            String perCoreJson = null;
+            if (i.getPer_core_usage() != null) {
+                try { perCoreJson = MAPPER.writeValueAsString(i.getPer_core_usage()); } catch (Exception e) { perCoreJson = null; }
+            }
             jdbcClient.sql(sql)
                 .params(
                     genId("cpu"),
@@ -47,6 +56,9 @@ public class MetricsIngestService {
                     name,
                     usage,
                     i.getTemperature(),
+                    i.getModel_name(),
+                    i.getCore_count(),
+                    perCoreJson,
                     tsOrNow(i.getRecorded_at())
                 )
                 .update();
@@ -115,6 +127,28 @@ public class MetricsIngestService {
                     down,
                     totalUp,
                     totalDown,
+                    tsOrNow(i.getRecorded_at())
+                )
+                .update();
+        }
+    }
+
+    private void batchProcesses(String computerId, List<MetricsBatchRequest.ProcessItem> items) {
+    String sql = "INSERT INTO process (id_process, id_computer, pid, program, command, threads, username, memory_bytes, cpu_percent, recorded_at) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        for (var i : items) {
+            Long pid = i.getPid() != null ? i.getPid() : -1L;
+            jdbcClient.sql(sql)
+                .params(
+                    genId("proc"),
+                    computerId,
+                    pid,
+                    i.getProgram(),
+                    i.getCommand(),
+                    i.getThreads(),
+                    i.getUser(),
+                    i.getMemory_bytes(),
+                    i.getCpu_percent(),
                     tsOrNow(i.getRecorded_at())
                 )
                 .update();

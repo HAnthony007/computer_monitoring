@@ -1,0 +1,3 @@
+ALTER TABLE cpu ADD COLUMN model_name VARCHAR(255);
+ALTER TABLE cpu ADD COLUMN core_count INT;
+ALTER TABLE cpu ADD COLUMN per_core_usage TEXT;

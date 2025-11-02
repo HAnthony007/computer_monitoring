@@ -16,6 +16,7 @@ pub async fn collect_batch(sys: &mut System, disks: &mut Disks, nets: &mut Netwo
     let memory = crate::features::memory::collect_memory(sys, recorded_at.clone());
     let disks_vec = crate::features::disk::collect_disks(disks, recorded_at.clone());
     let network_vec = crate::features::network::collect_network(nets, recorded_at.clone()).await;
+    let processes_vec = crate::features::process::collect_processes(sys, recorded_at.clone()).await;
 
-    BatchPayload { cpu, memory, disks: disks_vec, network: network_vec }
+    BatchPayload { cpu, memory, disks: disks_vec, network: network_vec, processes: processes_vec }
 }

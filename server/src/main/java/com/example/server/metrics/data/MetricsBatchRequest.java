@@ -15,12 +15,16 @@ public class MetricsBatchRequest {
     private List<MemoryItem> memory;
     private List<DiskItem> disks;
     private List<NetworkItem> network;
+    private List<ProcessItem> processes;
 
     @Data
     public static class CpuItem {
         @NotBlank @JsonAlias({"cpuName"}) private String cpu_name;
         @NotNull @JsonAlias({"usagePercent"}) private Double usage_percent;
         private Double temperature;
+        @JsonAlias({"modelName"}) private String model_name;
+        @JsonAlias({"coreCount"}) private Integer core_count;
+        @JsonAlias({"perCoreUsage"}) private java.util.List<Double> per_core_usage;
         @JsonAlias({"recordedAt"}) private Instant recorded_at; // optional
     }
 
@@ -48,6 +52,18 @@ public class MetricsBatchRequest {
         @NotNull @JsonAlias({"downloadSpeed","downloadBps","downloadBytesPerSec"}) private Double download_speed;
         @NotNull @JsonAlias({"totalUpload","txBytes"}) private Long total_upload;
         @NotNull @JsonAlias({"totalDownload","rxBytes"}) private Long total_download;
+        @JsonAlias({"recordedAt"}) private Instant recorded_at;
+    }
+
+    @Data
+    public static class ProcessItem {
+        @NotNull @JsonAlias({"pid"}) private Long pid;
+        @JsonAlias({"program","name"}) private String program;
+        @JsonAlias({"command","cmd","cmdline"}) private String command;
+        @JsonAlias({"threads"}) private Integer threads;
+        @JsonAlias({"user","username"}) private String user;
+        @JsonAlias({"memoryBytes","memory"}) private Long memory_bytes;
+        @JsonAlias({"cpuPercent","cpu"}) private Double cpu_percent;
         @JsonAlias({"recordedAt"}) private Instant recorded_at;
     }
 }
