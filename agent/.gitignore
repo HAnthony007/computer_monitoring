@@ -1,0 +1,22 @@
+# Rust/Cargo build output
+/target/
+
+# Rustfmt backup files
+**/*.rs.bk
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.iml
+
+# OS-specific cruft
+.DS_Store
+Thumbs.db

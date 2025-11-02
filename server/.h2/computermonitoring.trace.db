@@ -4,3 +4,30 @@ SELECT * FROM cpu memory network [42000-232]
 2025-11-01 14:50:49.856295+03:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * [*]FROMcpu  network"; SQL statement:
 SELECT * FROMcpu  network [42000-232]
+2025-11-02 10:30:05.623265+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:22.859291+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:32.081102+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:32.739240+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:33.270365+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:33.500954+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:33.681761+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:33.866372+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
+2025-11-02 10:30:34.077147+03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "DELETE [*]* FROM disk"; expected "identifier"; SQL statement:
+DELETE * FROM disk [42001-232]
