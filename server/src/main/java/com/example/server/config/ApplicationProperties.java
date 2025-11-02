@@ -18,4 +18,8 @@ public class ApplicationProperties {
     private String baseUrl;
     private String applicationName;
     private String loginPageUrl;
+
+    // Scheduling / agent status tuning
+    private Long agentStatusCheckMillis; // how often to check (ms)
+    private Long agentOfflineAfterSeconds; // mark OFFLINE if last_seen older than this
 }

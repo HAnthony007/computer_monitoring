@@ -24,12 +24,12 @@ pub enum Commands {
         #[arg(long, env = "API_KEY_FILE")]
         api_key_file: Option<PathBuf>,
 
-        /// Metrics send interval in seconds
-        #[arg(long, env = "INTERVAL_SECS", default_value_t = 10)]
+    /// Metrics send interval in seconds
+    #[arg(long, env = "INTERVAL_SECS", default_value_t = 5)]
         interval_secs: u64,
 
-        /// Heartbeat interval in seconds
-        #[arg(long, env = "HEARTBEAT_SECS", default_value_t = 30)]
+    /// Heartbeat interval in seconds
+    #[arg(long, env = "HEARTBEAT_SECS", default_value_t = 5)]
         heartbeat_secs: u64,
 
         /// Print payloads to stdout

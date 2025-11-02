@@ -19,7 +19,7 @@ async fn main() -> Result<(), AgentError> {
 
     let cli = Cli::parse();
 
-    match cli.command.unwrap_or(Commands::Run { api_key: None, api_key_file: None, interval_secs: 10, heartbeat_secs: 30, dry_run: false }) {
+    match cli.command.unwrap_or(Commands::Run { api_key: None, api_key_file: None, interval_secs: 2, heartbeat_secs: 5, dry_run: false }) {
         Commands::Register { hostname, ip_address, os, agent_version: agent_version_opt } => {
             let host = hostname.unwrap_or_else(|| utils::detect_hostname());
             let ip = ip_address.unwrap_or_else(|| utils::detect_ip());
