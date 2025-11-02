@@ -28,12 +28,20 @@ public class ApiKeyAuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        // Filter only agent and metrics ingestion endpoints
-        return !(path.startsWith("/api/agent/heartbeat") || path.startsWith("/api/metrics/"));
+        // Filter only agent and metrics ingestion endpoints (X-API-Key auth)
+        // - Agent heartbeat
+        // - Agent commands (poll)
+        // - Metrics ingestion
+        boolean shouldFilter = path.startsWith("/api/agent/heartbeat")
+                || path.startsWith("/api/agent/commands/")
+                || path.startsWith("/api/metrics/");
+        return !shouldFilter;
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@org.springframework.lang.NonNull HttpServletRequest request,
+        @org.springframework.lang.NonNull HttpServletResponse response,
+        @org.springframework.lang.NonNull FilterChain filterChain)
             throws ServletException, IOException {
         String apiKey = request.getHeader("X-API-Key");
         if (!StringUtils.hasText(apiKey) || !apiKey.contains(".")) {

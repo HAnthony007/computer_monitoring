@@ -19,6 +19,13 @@ target/
 *.iml
 *.ipr
 
+### database
+# Ignore H2 database files in this module
+/.h2/
+*.mv.db
+*.trace.db
+*.lock.db
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

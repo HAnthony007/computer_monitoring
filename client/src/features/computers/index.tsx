@@ -1,12 +1,14 @@
 "use client";
 
+import { useIsFetching } from "@tanstack/react-query";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
 import { ComputerCard } from "./components/computer-card";
 import { useComputers } from "./hooks/use-computers";
 
 export default function Computers() {
-    const { data, isLoading, error } = useComputers();
+    const { data, isLoading, error, isFetching } = useComputers();
+    const isRefreshing = useIsFetching({ queryKey: ["computers"] }) > 0;
 
     if (isLoading) {
         return (
@@ -58,11 +60,20 @@ export default function Computers() {
                     <h2 className="text-2xl font-bold tracking-tight">
                         Computers
                     </h2>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground flex items-center gap-2">
                         Monitor and manage all computers in your network
+                        {isRefreshing && (
+                            <Icons.activity className="size-3 animate-pulse text-primary" />
+                        )}
                     </p>
                 </div>
                 <div className="flex items-center gap-2">
+                    {isRefreshing && (
+                        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">
+                            <Icons.activity className="size-3 animate-pulse" />
+                            Live
+                        </Badge>
+                    )}
                     <Badge
                         variant="outline"
                         className="bg-green-500/10 text-green-600 border-green-500/20"

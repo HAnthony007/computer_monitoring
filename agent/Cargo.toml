@@ -16,6 +16,7 @@ dotenvy = "0.15"
 get_if_addrs = "0.5"
 hostname = "0.4"
 os_info = "3"
+nix = { version = "0.28", default-features = false, features = ["signal"] }
 
 [profile.release]
 lto = true

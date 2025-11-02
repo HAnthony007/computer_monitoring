@@ -45,4 +45,8 @@ export const metricsApi = {
         );
         return response.data;
     },
+
+    killProcess: async (computerId: string, pid: number): Promise<void> => {
+        await axiosInstance.post(`/computers/${computerId}/processes/${pid}/kill`);
+    },
 };

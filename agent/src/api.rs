@@ -3,6 +3,7 @@ use serde_json::json;
 use std::path::PathBuf;
 
 use crate::domain::AgentError;
+use crate::domain::AgentCommand;
 
 pub async fn send_batch(client: &reqwest::Client, base_url: &str, api_key: &str, payload: &crate::domain::BatchPayload) -> Result<(), AgentError> {
     let url = format!("{}/api/metrics/batch", base_url.trim_end_matches('/'));
@@ -32,6 +33,19 @@ pub async fn send_heartbeat(client: &reqwest::Client, base_url: &str, api_key: &
     });
     let _ = client.post(url).headers(headers).json(&body).send().await?;
     Ok(())
+}
+
+pub async fn poll_commands(client: &reqwest::Client, base_url: &str, api_key: &str) -> Result<Vec<AgentCommand>, AgentError> {
+    let url = format!("{}/api/agent/commands/poll", base_url.trim_end_matches('/'));
+    let mut headers = HeaderMap::new();
+    headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
+    headers.insert("X-API-Key", HeaderValue::from_str(api_key).unwrap_or_else(|_| HeaderValue::from_static("invalid")));
+    let resp = client.post(url).headers(headers).send().await?;
+    if !resp.status().is_success() {
+        return Ok(vec![]);
+    }
+    let cmds: Vec<AgentCommand> = resp.json().await.unwrap_or_default();
+    Ok(cmds)
 }
 
 pub async fn auto_register_and_persist(client: &reqwest::Client, base_url: &str) -> Result<String, AgentError> {

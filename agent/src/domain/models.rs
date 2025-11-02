@@ -1,4 +1,4 @@
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 #[derive(Serialize, Debug, Clone)]
 pub struct CpuPoint {
@@ -75,4 +75,12 @@ pub struct BatchPayload {
     pub disks: Vec<DiskPoint>,
     pub network: Vec<NetworkPoint>,
     pub processes: Vec<ProcessPoint>,
+}
+
+#[derive(Deserialize, Debug, Clone)]
+pub struct AgentCommand {
+    pub id: String,
+    #[serde(rename = "type")]
+    pub command_type: String,
+    pub pid: Option<i64>,
 }

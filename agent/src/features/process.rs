@@ -2,6 +2,8 @@ use sysinfo::{System, ProcessesToUpdate};
 use std::fs;
 use std::path::Path;
 use std::time::Duration;
+use nix::sys::signal::{kill as send_signal, Signal};
+use nix::unistd::Pid;
 
 pub async fn collect_processes(sys: &mut System, recorded_at: Option<String>) -> Vec<crate::domain::ProcessPoint> {
     // For non-zero cpu_percent, we need two refreshes separated by a short delay
@@ -43,6 +45,16 @@ pub async fn collect_processes(sys: &mut System, recorded_at: Option<String>) ->
         });
     }
     out
+}
+
+pub fn kill_process(pid: i64) -> Result<(), String> {
+    let pid_c = Pid::from_raw(pid as i32);
+    // Try SIGTERM first
+    if let Err(e) = send_signal(pid_c, Signal::SIGTERM) { return Err(format!("sigterm failed: {}", e)); }
+    // Give it a short moment to exit gracefully, then try SIGKILL (best-effort)
+    std::thread::sleep(std::time::Duration::from_millis(200));
+    let _ = send_signal(pid_c, Signal::SIGKILL);
+    Ok(())
 }
 
 fn join_cmdline_linux(pid: i64) -> Option<String> {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -12,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { cn, formatRelativeTime } from "@/lib/utils";
 import { Computer } from "../schemas/computer-schema";
+import { usePathname } from "next/navigation";
 
 interface ComputerCardProps {
     computer: Computer;
@@ -46,9 +48,12 @@ const getStatusConfig = (status?: string) => {
 export function ComputerCard({ computer }: ComputerCardProps) {
     const statusConfig = getStatusConfig(computer.status);
     const StatusIcon = statusConfig.icon;
+    const pathname = usePathname();
+    const role = pathname.split('/')[1]; // Extract role from pathname like /admin/computers
 
     return (
-        <Card className="group hover:shadow-lg transition-all duration-200 border hover:border-primary/20">
+        <Link href={`/${role}/computers/${computer.idComputer}`} className="block">
+            <Card className="group hover:shadow-lg transition-all duration-200 border hover:border-primary/20 cursor-pointer">
             <CardHeader>
                 <div className="flex items-start justify-between gap-4">
                     <div className="flex items-center gap-3 flex-1 min-w-0">
@@ -118,6 +123,7 @@ export function ComputerCard({ computer }: ComputerCardProps) {
                 </div>
             </CardFooter>
         </Card>
+        </Link>
     );
 }
 

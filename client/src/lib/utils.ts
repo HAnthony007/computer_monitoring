@@ -46,3 +46,11 @@ export function formatPercentage(value?: number, decimals: number = 1): string {
   if (value === undefined || value === null || isNaN(value)) return "N/A";
   return `${value.toFixed(decimals)}%`;
 }
+
+export function formatNetworkSpeed(bytes?: number): string {
+  if (!bytes || bytes === 0) return "0 B/s";
+  const k = 1024;
+  const sizes = ["B/s", "KB/s", "MB/s", "GB/s"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`;
+}

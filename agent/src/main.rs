@@ -71,6 +71,18 @@ async fn main() -> Result<(), AgentError> {
                 loop {
                     interval.tick().await;
                     let _ = api::send_heartbeat(&client_hb, &base, &api_key_hb, &hb_version).await;
+                    if let Ok(cmds) = api::poll_commands(&client_hb, &base, &api_key_hb).await {
+                        for cmd in cmds {
+                            if cmd.command_type == "KILL_PROCESS" {
+                                if let Some(pid) = cmd.pid {
+                                    match crate::features::process::kill_process(pid) {
+                                        Ok(_) => eprintln!("[cm-agent] killed pid {}", pid),
+                                        Err(e) => eprintln!("[cm-agent] failed to kill pid {}: {}", pid, e),
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             });
 

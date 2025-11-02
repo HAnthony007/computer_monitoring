@@ -1,5 +1,6 @@
 "use client";
 
+import { useIsFetching } from "@tanstack/react-query";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -15,6 +16,7 @@ import { formatUptime, formatPercentage } from "@/lib/utils";
 
 export function SectionCards() {
     const { data, isLoading, error } = useDashboardStats();
+    const isRefreshing = useIsFetching({ queryKey: ["dashboard", "stats"] }) > 0;
 
     if (isLoading) {
         return (
