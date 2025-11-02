@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { Agent } from "@/types/Computer";
+import { Agent } from "@/features/computers/schemas/computer-schema";
 
 export const agentsApi = {
     getAll: async (): Promise<Agent[]> => {

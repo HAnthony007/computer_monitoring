@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import Loading from "@app/loading";
 
@@ -18,7 +18,6 @@ export default function DashboardLayout({
         <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
             {children}
             <div className="px-4 lg:px-6">{bar_stats}</div>
-            <h1>Hello Stats</h1>
         </div>
     );
 }

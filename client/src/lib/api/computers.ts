@@ -1,5 +1,5 @@
 import axiosInstance from "@/lib/axiosInstance";
-import { Computer } from "@/types/Computer";
+import { Computer } from "@/features/computers/schemas/computer-schema";
 import { LatestMetrics, MetricsHistory } from "@/types/Metrics";
 
 export const computersApi = {
