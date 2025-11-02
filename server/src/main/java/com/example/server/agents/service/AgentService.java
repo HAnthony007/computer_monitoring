@@ -71,8 +71,13 @@ public class AgentService {
     public void heartbeat(String agentId, HeartbeatRequest req) {
         Agent agent = agentRepository.findById(agentId).orElseThrow();
         agent.setStatus("ONLINE");
-        if (req != null && req.getAgentVersion() != null) {
-            agent.setVersion(req.getAgentVersion());
+        if (req != null) {
+            if (req.getAgentVersion() != null) {
+                agent.setVersion(req.getAgentVersion());
+            }
+            if (req.getUptimeSeconds() != null) {
+                agent.setUptimeSeconds(req.getUptimeSeconds());
+            }
         }
         agent.setLastSeen(LocalDateTime.now());
         agentRepository.save(agent);

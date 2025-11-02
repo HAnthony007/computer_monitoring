@@ -37,6 +37,9 @@ public class Agent {
     @Column(name = "last_seen")
     private LocalDateTime lastSeen;
 
+    @Column(name = "uptime_seconds")
+    private Long uptimeSeconds;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 

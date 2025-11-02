@@ -25,9 +25,10 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginRequest body) {
+    public ResponseEntity<UserResponse> login(HttpServletRequest request, HttpServletResponse response, @RequestBody LoginRequest body) {
         authService.login(request, response, body);
-        return ResponseEntity.ok().build();
+        // Return the authenticated user to match the client expectation
+        return ResponseEntity.ok(authService.getSession(request));
     }
 
     @GetMapping("/me")
