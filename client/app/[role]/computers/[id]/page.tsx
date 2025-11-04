@@ -1,10 +1,10 @@
 import ComputerDetails from "@/features/computers/components/computer-details";
 
-export default function ComputerDetailsPage({
+export default async function ComputerDetailsPage({
     params,
 }: {
-    params: { id: string; role: string };
+    params: Promise<{ id: string; role: string }>;
 }) {
-    return <ComputerDetails computerId={params.id} />;
+    const p = await params;
+    return <ComputerDetails computerId={p.id} />;
 }
-

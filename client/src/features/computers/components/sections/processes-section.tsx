@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import {
@@ -29,6 +28,7 @@ import {
 } from "@/components/ui/table";
 import { formatPercentage } from "@/lib/utils";
 import { ProcessMetric } from "@/types/Metrics";
+import * as React from "react";
 import { useKillProcess } from "../../hooks/use-kill-process";
 
 interface ProcessesSectionProps {
@@ -46,10 +46,16 @@ function formatBytes(bytes?: number): string {
     return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`;
 }
 
-export function ProcessesSection({ computerId, processes, isLoading, error }: ProcessesSectionProps) {
+export function ProcessesSection({
+    computerId,
+    processes,
+    isLoading,
+    error,
+}: ProcessesSectionProps) {
     const [searchTerm, setSearchTerm] = React.useState("");
     const [sortBy, setSortBy] = React.useState<"cpu" | "memory" | "pid">("cpu");
-    const [processToKill, setProcessToKill] = React.useState<ProcessMetric | null>(null);
+    const [processToKill, setProcessToKill] =
+        React.useState<ProcessMetric | null>(null);
     const [isDialogOpen, setIsDialogOpen] = React.useState(false);
     const killProcessMutation = useKillProcess(computerId);
 
@@ -71,11 +77,16 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
 
     const filteredAndSorted = React.useMemo(() => {
         if (!processes) return [];
-        
-        let filtered = processes.filter((proc) =>
-            proc.program?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            proc.command?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            proc.user?.toLowerCase().includes(searchTerm.toLowerCase())
+
+        const filtered = processes.filter(
+            (proc) =>
+                proc.program
+                    ?.toLowerCase()
+                    .includes(searchTerm.toLowerCase()) ||
+                proc.command
+                    ?.toLowerCase()
+                    .includes(searchTerm.toLowerCase()) ||
+                proc.user?.toLowerCase().includes(searchTerm.toLowerCase())
         );
 
         filtered.sort((a, b) => {
@@ -147,7 +158,11 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                     />
                     <select
                         value={sortBy}
-                        onChange={(e) => setSortBy(e.target.value as "cpu" | "memory" | "pid")}
+                        onChange={(e) =>
+                            setSortBy(
+                                e.target.value as "cpu" | "memory" | "pid"
+                            )
+                        }
                         className="rounded-md border border-input bg-background px-3 py-2 text-sm"
                     >
                         <option value="cpu">Sort by CPU</option>
@@ -162,16 +177,27 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                                 <TableHead>PID</TableHead>
                                 <TableHead>Program</TableHead>
                                 <TableHead>User</TableHead>
-                                <TableHead className="text-right">CPU %</TableHead>
-                                <TableHead className="text-right">Memory</TableHead>
-                                <TableHead className="text-right">Threads</TableHead>
-                                <TableHead className="text-right">Actions</TableHead>
+                                <TableHead className="text-right">
+                                    CPU %
+                                </TableHead>
+                                <TableHead className="text-right">
+                                    Memory
+                                </TableHead>
+                                <TableHead className="text-right">
+                                    Threads
+                                </TableHead>
+                                <TableHead className="text-right">
+                                    Actions
+                                </TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {filteredAndSorted.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={7} className="text-center text-muted-foreground">
+                                    <TableCell
+                                        colSpan={7}
+                                        className="text-center text-muted-foreground"
+                                    >
                                         No processes found
                                     </TableCell>
                                 </TableRow>
@@ -183,7 +209,9 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                                         </TableCell>
                                         <TableCell>
                                             <div className="space-y-1">
-                                                <div className="font-medium">{proc.program}</div>
+                                                <div className="font-medium">
+                                                    {proc.program}
+                                                </div>
                                                 {proc.command && (
                                                     <div className="text-xs text-muted-foreground truncate max-w-[300px]">
                                                         {proc.command}
@@ -192,15 +220,24 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                                             </div>
                                         </TableCell>
                                         <TableCell className="text-sm">
-                                            {proc.user || proc.username || "N/A"}
+                                            {proc.user ||
+                                                proc.username ||
+                                                "N/A"}
                                         </TableCell>
                                         <TableCell className="text-right">
-                                            <span className={`font-medium ${
-                                                (proc.cpuPercent || 0) > 50 ? 'text-red-500' :
-                                                (proc.cpuPercent || 0) > 20 ? 'text-yellow-500' :
-                                                'text-green-500'
-                                            }`}>
-                                                {formatPercentage(proc.cpuPercent)}
+                                            <span
+                                                className={`font-medium ${
+                                                    (proc.cpuPercent || 0) > 50
+                                                        ? "text-red-500"
+                                                        : (proc.cpuPercent ||
+                                                              0) > 20
+                                                        ? "text-yellow-500"
+                                                        : "text-green-500"
+                                                }`}
+                                            >
+                                                {formatPercentage(
+                                                    proc.cpuPercent
+                                                )}
                                             </span>
                                         </TableCell>
                                         <TableCell className="text-right font-medium">
@@ -213,9 +250,13 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                                             <Button
                                                 variant="ghost"
                                                 size="sm"
-                                                onClick={() => handleKillClick(proc)}
+                                                onClick={() =>
+                                                    handleKillClick(proc)
+                                                }
                                                 className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                                                disabled={killProcessMutation.isPending}
+                                                disabled={
+                                                    killProcessMutation.isPending
+                                                }
                                             >
                                                 <Icons.Trash className="size-4" />
                                             </Button>
@@ -237,33 +278,58 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
                             Kill Process
                         </DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to kill this process? This action cannot be undone.
+                            Are you sure you want to kill this process? This
+                            action cannot be undone.
                         </DialogDescription>
                     </DialogHeader>
                     {processToKill && (
                         <div className="space-y-2 py-4">
                             <div className="grid grid-cols-2 gap-4 text-sm">
                                 <div>
-                                    <span className="text-muted-foreground">PID:</span>
-                                    <span className="ml-2 font-mono font-medium">{processToKill.pid}</span>
+                                    <span className="text-muted-foreground">
+                                        PID:
+                                    </span>
+                                    <span className="ml-2 font-mono font-medium">
+                                        {processToKill.pid}
+                                    </span>
                                 </div>
                                 <div>
-                                    <span className="text-muted-foreground">Program:</span>
-                                    <span className="ml-2 font-medium">{processToKill.program}</span>
+                                    <span className="text-muted-foreground">
+                                        Program:
+                                    </span>
+                                    <span className="ml-2 font-medium">
+                                        {processToKill.program}
+                                    </span>
                                 </div>
                                 <div>
-                                    <span className="text-muted-foreground">User:</span>
-                                    <span className="ml-2">{processToKill.user || processToKill.username || "N/A"}</span>
+                                    <span className="text-muted-foreground">
+                                        User:
+                                    </span>
+                                    <span className="ml-2">
+                                        {processToKill.user ||
+                                            processToKill.username ||
+                                            "N/A"}
+                                    </span>
                                 </div>
                                 <div>
-                                    <span className="text-muted-foreground">CPU:</span>
-                                    <span className="ml-2">{formatPercentage(processToKill.cpuPercent)}</span>
+                                    <span className="text-muted-foreground">
+                                        CPU:
+                                    </span>
+                                    <span className="ml-2">
+                                        {formatPercentage(
+                                            processToKill.cpuPercent
+                                        )}
+                                    </span>
                                 </div>
                             </div>
                             {processToKill.command && (
                                 <div className="pt-2 border-t">
-                                    <span className="text-muted-foreground text-sm">Command: </span>
-                                    <span className="text-sm font-mono">{processToKill.command}</span>
+                                    <span className="text-muted-foreground text-sm">
+                                        Command:{" "}
+                                    </span>
+                                    <span className="text-sm font-mono">
+                                        {processToKill.command}
+                                    </span>
                                 </div>
                             )}
                         </div>
@@ -302,4 +368,3 @@ export function ProcessesSection({ computerId, processes, isLoading, error }: Pr
         </Card>
     );
 }
-

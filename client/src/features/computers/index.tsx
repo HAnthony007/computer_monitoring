@@ -1,13 +1,13 @@
 "use client";
 
-import { useIsFetching } from "@tanstack/react-query";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
+import { useIsFetching } from "@tanstack/react-query";
 import { ComputerCard } from "./components/computer-card";
 import { useComputers } from "./hooks/use-computers";
 
 export default function Computers() {
-    const { data, isLoading, error, isFetching } = useComputers();
+    const { data, isLoading, error } = useComputers();
     const isRefreshing = useIsFetching({ queryKey: ["computers"] }) > 0;
 
     if (isLoading) {
@@ -69,7 +69,10 @@ export default function Computers() {
                 </div>
                 <div className="flex items-center gap-2">
                     {isRefreshing && (
-                        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">
+                        <Badge
+                            variant="outline"
+                            className="bg-blue-500/10 text-blue-600 border-blue-500/20"
+                        >
                             <Icons.activity className="size-3 animate-pulse" />
                             Live
                         </Badge>

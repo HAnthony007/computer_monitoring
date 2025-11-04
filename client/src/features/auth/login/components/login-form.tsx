@@ -4,16 +4,17 @@ import { Icons } from "@/components/icon/icons";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
+import { useRedirectIfAuthentificated } from "@/hooks/useRedirectIfAuthentificated";
 import { useAuthStore } from "@/store/authStore";
+import Loading from "@app/loading";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { isAxiosError } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { loginFormSchemas, loginSchemaType } from "../schemas/login-schema";
-import { useRedirectIfAuthentificated } from "@/hooks/useRedirectIfAuthentificated";
-import Loading from "@app/loading";
 
 export const LoginForm = () => {
     const { isLoading } = useRedirectIfAuthentificated();
@@ -40,19 +41,24 @@ export const LoginForm = () => {
             reset();
             router.push("/dashboard");
             toast.success("Login successful!");
-        } catch (error: any) {
-            if (error.status === 404) {
+        } catch (error: unknown) {
+            if (isAxiosError(error) && error.response?.status === 404) {
                 setError("email", {
                     type: "manual",
                     message: "User not found",
                 });
-            } else if (error.status === 401) {
+            } else if (isAxiosError(error) && error.response?.status === 401) {
                 setError("password", {
                     type: "manual",
                     message: "Invalid password",
                 });
             }
-            toast.error("Login failed. Please try again.");
+            const msg = isAxiosError(error)
+                ? error.response?.data?.message || error.message
+                : error instanceof Error
+                ? error.message
+                : "Login failed. Please try again.";
+            toast.error(msg);
         } finally {
             setIsSubmitting(false);
         }

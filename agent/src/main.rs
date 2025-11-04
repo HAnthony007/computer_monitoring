@@ -93,6 +93,28 @@ async fn main() -> Result<(), AgentError> {
 
             loop {
                 let batch = features::collect_batch(&mut sys, &mut disks, &mut nets).await;
+                // Optional debug: set CM_DEBUG=1 to print collected summaries each tick
+                if std::env::var("CM_DEBUG").ok().as_deref() == Some("1") {
+                    if let Some(c) = batch.cpu.get(0) {
+                        let per_core_len = c.per_core_usage.as_ref().map(|v| v.len()).unwrap_or(0);
+                        eprintln!(
+                            "[cm-agent][debug] cpu: usage={:.1}% model={:?} cores={:?} per_core_len={} temp={:?}",
+                            c.usage_percent, c.model_name, c.core_count, per_core_len, c.temperature
+                        );
+                    }
+                    eprintln!("[cm-agent][debug] processes: {}", batch.processes.len());
+                    let mut top = batch.processes.clone();
+                    top.sort_by(|a, b| b
+                        .cpu_percent
+                        .partial_cmp(&a.cpu_percent)
+                        .unwrap_or(std::cmp::Ordering::Equal));
+                    for p in top.into_iter().take(3) {
+                        eprintln!(
+                            "[cm-agent][debug] pid={} cpu={:?} mem={:?} {}",
+                            p.pid, p.cpu_percent, p.memory_bytes, p.program
+                        );
+                    }
+                }
                 if dry_run {
                     println!("{}", serde_json::to_string_pretty(&batch).unwrap());
                 } else {

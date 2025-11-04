@@ -22,7 +22,7 @@ export default function MainLayout({
     useEffect(() => {
         fetchUser();
         setHasMounted(true);
-    }, []);
+    }, [fetchUser]);
 
     useEffect(() => {
         if (!isLoading && user && hasMounted) {

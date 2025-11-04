@@ -1,7 +1,5 @@
 "use client";
 
-import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -19,6 +17,8 @@ import {
 } from "@/components/ui/chart";
 import { formatPercentage } from "@/lib/utils";
 import { CpuMetric } from "@/types/Metrics";
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
 
 interface CpuSectionProps {
     cpu?: CpuMetric[];
@@ -32,19 +32,19 @@ export function CpuSection({ cpu, isLoading, error }: CpuSectionProps) {
     // Prepare chart data - use perCoreUsage if available, otherwise use overall usage
     const chartData = React.useMemo(() => {
         if (!latestCpu) return [];
-        
+
         if (latestCpu.perCoreUsage && latestCpu.perCoreUsage.length > 0) {
             return latestCpu.perCoreUsage.map((usage, index) => ({
                 core: `Core ${index + 1}`,
                 usage: usage || 0,
             }));
         }
-        
+
         return [
             {
                 core: "Overall",
                 usage: latestCpu.usagePercent || 0,
-            }
+            },
         ];
     }, [latestCpu]);
 
@@ -107,7 +107,10 @@ export function CpuSection({ cpu, isLoading, error }: CpuSectionProps) {
             </CardHeader>
             <CardContent className="space-y-4">
                 {/* Chart */}
-                <ChartContainer config={chartConfig} className="h-[200px] w-full">
+                <ChartContainer
+                    config={chartConfig}
+                    className="h-[200px] w-full"
+                >
                     <AreaChart data={chartData}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="core" />
@@ -132,7 +135,7 @@ export function CpuSection({ cpu, isLoading, error }: CpuSectionProps) {
                                 {latestCpu.coreCount || "N/A"}
                             </span>
                         </div>
-                        {latestCpu.temperature !== undefined && (
+                        {typeof latestCpu.temperature === "number" && (
                             <div className="flex items-center justify-between text-sm">
                                 <span className="text-muted-foreground flex items-center gap-1">
                                     <Icons.activity className="size-3" />
@@ -146,20 +149,22 @@ export function CpuSection({ cpu, isLoading, error }: CpuSectionProps) {
                     </div>
                     <div className="space-y-2">
                         <div className="flex items-center justify-between text-sm">
-                            <span className="text-muted-foreground">Overall Usage</span>
+                            <span className="text-muted-foreground">
+                                Overall Usage
+                            </span>
                             <span className="font-medium">
                                 {formatPercentage(latestCpu.usagePercent)}
                             </span>
                         </div>
-                        {latestCpu.perCoreUsage && latestCpu.perCoreUsage.length > 0 && (
-                            <div className="text-xs text-muted-foreground">
-                                Per-core usage available
-                            </div>
-                        )}
+                        {latestCpu.perCoreUsage &&
+                            latestCpu.perCoreUsage.length > 0 && (
+                                <div className="text-xs text-muted-foreground">
+                                    Per-core usage available
+                                </div>
+                            )}
                     </div>
                 </div>
             </CardContent>
         </Card>
     );
 }
-

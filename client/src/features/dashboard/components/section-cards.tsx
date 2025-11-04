@@ -1,6 +1,5 @@
 "use client";
 
-import { useIsFetching } from "@tanstack/react-query";
 import { Icons } from "@/components/icon/icons";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -11,12 +10,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { formatPercentage, formatUptime } from "@/lib/utils";
 import { useDashboardStats } from "../hooks/use-dashboard-stats";
-import { formatUptime, formatPercentage } from "@/lib/utils";
 
 export function SectionCards() {
     const { data, isLoading, error } = useDashboardStats();
-    const isRefreshing = useIsFetching({ queryKey: ["dashboard", "stats"] }) > 0;
+    // Live refresh indicator can be added later with useIsFetching if needed
 
     if (isLoading) {
         return (
@@ -62,14 +61,16 @@ export function SectionCards() {
     };
 
     // Calculate percentage of active computers
-    const activePercentage = stats.totalComputers > 0
-        ? (stats.activeComputers / stats.totalComputers) * 100
-        : 0;
+    const activePercentage =
+        stats.totalComputers > 0
+            ? (stats.activeComputers / stats.totalComputers) * 100
+            : 0;
 
     // Calculate percentage of active agents
-    const agentsActivePercentage = stats.totalAgents > 0
-        ? (stats.activeAgents / stats.totalAgents) * 100
-        : 0;
+    const agentsActivePercentage =
+        stats.totalAgents > 0
+            ? (stats.activeAgents / stats.totalAgents) * 100
+            : 0;
 
     return (
         <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 px-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
@@ -108,7 +109,10 @@ export function SectionCards() {
                         {stats.activeComputers}
                     </CardTitle>
                     <CardAction>
-                        <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/20">
+                        <Badge
+                            variant="outline"
+                            className="bg-green-500/10 text-green-600 border-green-500/20"
+                        >
                             <Icons.checkCircle2 className="size-3" />
                             {formatPercentage(activePercentage)}
                         </Badge>
@@ -116,8 +120,7 @@ export function SectionCards() {
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm">
                     <div className="line-clamp-1 flex gap-2 font-medium">
-                        Operational{" "}
-                        <Icons.trendingUp className="size-4" />
+                        Operational <Icons.trendingUp className="size-4" />
                     </div>
                     <div className="text-muted-foreground">
                         Currently monitoring
@@ -133,7 +136,10 @@ export function SectionCards() {
                         {stats.activeAgents}
                     </CardTitle>
                     <CardAction>
-                        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/20">
+                        <Badge
+                            variant="outline"
+                            className="bg-blue-500/10 text-blue-600 border-blue-500/20"
+                        >
                             <Icons.activity className="size-3" />
                             {formatPercentage(agentsActivePercentage)}
                         </Badge>
@@ -141,8 +147,7 @@ export function SectionCards() {
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm">
                     <div className="line-clamp-1 flex gap-2 font-medium">
-                        Running agents{" "}
-                        <Icons.trendingUp className="size-4" />
+                        Running agents <Icons.trendingUp className="size-4" />
                     </div>
                     <div className="text-muted-foreground">
                         {stats.totalAgents} total agents
