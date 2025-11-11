@@ -25,7 +25,11 @@ function formatBytes(bytes?: number): string {
     return `${(bytes / Math.pow(k, i)).toFixed(2)} ${sizes[i]}`;
 }
 
-export function NetworkSection({ network, isLoading, error }: NetworkSectionProps) {
+export function NetworkSection({
+    network,
+    isLoading,
+    error,
+}: NetworkSectionProps) {
     if (isLoading) {
         return (
             <Card>
@@ -68,56 +72,82 @@ export function NetworkSection({ network, isLoading, error }: NetworkSectionProp
             <CardContent>
                 <div className="space-y-4">
                     {network.map((iface, index) => (
-                        <div key={index} className="border rounded-lg p-4 space-y-3">
+                        <div
+                            key={index}
+                            className="border rounded-lg p-4 space-y-3"
+                        >
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-2">
                                     <Icons.wifi className="size-4 text-primary" />
                                     <span className="font-medium">
-                                        {iface.interface || iface.interfaceName || `Interface ${index + 1}`}
+                                        {iface.interface ||
+                                            iface.interfaceName ||
+                                            `Interface ${index + 1}`}
                                     </span>
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
-                                    <div className="text-sm text-muted-foreground">Download</div>
+                                    <div className="text-sm text-muted-foreground">
+                                        Download
+                                    </div>
                                     <div className="text-lg font-semibold text-blue-500">
                                         {iface.downloadSpeed !== undefined
-                                            ? `${iface.downloadSpeed.toFixed(2)} Mbps`
+                                            ? `${iface.downloadSpeed.toFixed(
+                                                  2
+                                              )} Kbps`
                                             : iface.downloadBps !== undefined
-                                            ? formatBytes(iface.downloadBps) + "/s"
+                                            ? formatBytes(iface.downloadBps) +
+                                              "/s"
                                             : "N/A"}
                                     </div>
                                     {iface.totalDownload !== undefined && (
                                         <div className="text-xs text-muted-foreground">
-                                            Total: {formatBytes(iface.totalDownload)}
+                                            Total:{" "}
+                                            {formatBytes(iface.totalDownload)}
                                         </div>
                                     )}
                                 </div>
                                 <div className="space-y-2">
-                                    <div className="text-sm text-muted-foreground">Upload</div>
+                                    <div className="text-sm text-muted-foreground">
+                                        Upload
+                                    </div>
                                     <div className="text-lg font-semibold text-green-500">
                                         {iface.uploadSpeed !== undefined
-                                            ? `${iface.uploadSpeed.toFixed(2)} Mbps`
+                                            ? `${iface.uploadSpeed.toFixed(
+                                                  2
+                                              )} Kbps`
                                             : iface.uploadBps !== undefined
-                                            ? formatBytes(iface.uploadBps) + "/s"
+                                            ? formatBytes(iface.uploadBps) +
+                                              "/s"
                                             : "N/A"}
                                     </div>
                                     {iface.totalUpload !== undefined && (
                                         <div className="text-xs text-muted-foreground">
-                                            Total: {formatBytes(iface.totalUpload)}
+                                            Total:{" "}
+                                            {formatBytes(iface.totalUpload)}
                                         </div>
                                     )}
                                 </div>
                             </div>
-                            {(iface.rxBytes !== undefined || iface.txBytes !== undefined) && (
+                            {(iface.rxBytes !== undefined ||
+                                iface.txBytes !== undefined) && (
                                 <div className="grid grid-cols-2 gap-4 pt-2 border-t text-xs">
                                     <div>
-                                        <span className="text-muted-foreground">RX: </span>
-                                        <span className="font-medium">{formatBytes(iface.rxBytes)}</span>
+                                        <span className="text-muted-foreground">
+                                            RX:{" "}
+                                        </span>
+                                        <span className="font-medium">
+                                            {formatBytes(iface.rxBytes)}
+                                        </span>
                                     </div>
                                     <div>
-                                        <span className="text-muted-foreground">TX: </span>
-                                        <span className="font-medium">{formatBytes(iface.txBytes)}</span>
+                                        <span className="text-muted-foreground">
+                                            TX:{" "}
+                                        </span>
+                                        <span className="font-medium">
+                                            {formatBytes(iface.txBytes)}
+                                        </span>
                                     </div>
                                 </div>
                             )}
@@ -128,4 +158,3 @@ export function NetworkSection({ network, isLoading, error }: NetworkSectionProp
         </Card>
     );
 }
-

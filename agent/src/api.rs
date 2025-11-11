@@ -53,11 +53,13 @@ pub async fn auto_register_and_persist(client: &reqwest::Client, base_url: &str)
     let ip = crate::utils::detect_ip();
     let os_str = crate::utils::detect_os_string();
     let version = crate::utils::agent_version();
+    let fingerprint = crate::utils::generate_fingerprint();
     let url = format!("{}/api/agent/register", base_url.trim_end_matches('/'));
     let body = json!({
         "hostname": host,
         "ipAddress": ip,
         "os": os_str,
+        "fingerprint": fingerprint,
         "agentVersion": version,
     });
     let res = client.post(url).json(&body).send().await?;

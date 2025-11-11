@@ -27,14 +27,30 @@ public class AgentService {
 
     @Transactional
     public RegisterAgentResponse register(RegisterAgentRequest request) {
-        // Find or create computer by IP address
-        Computer computer = computerRepository.findByIpAdress(request.getIpAddress());
+        // Prefer fingerprint if provided, else fallback to IP address.
+        Computer computer = null;
+        if (request.getFingerprint() != null && !request.getFingerprint().isBlank()) {
+            computer = computerRepository.findByFingerprint(request.getFingerprint());
+        }
+        if (computer == null) {
+            computer = computerRepository.findByIpAdress(request.getIpAddress());
+        }
         if (computer == null) {
             computer = new Computer();
             computer.setHostname(request.getHostname());
             computer.setIpAdress(request.getIpAddress());
             computer.setOs(request.getOs());
+            computer.setFingerprint(request.getFingerprint());
             computer.generateId();
+            computer = computerRepository.save(computer);
+        } else {
+            // Refresh metadata (handles hostname or IP changes, or late fingerprint introduction)
+            computer.setHostname(request.getHostname());
+            computer.setIpAdress(request.getIpAddress());
+            computer.setOs(request.getOs());
+            if (request.getFingerprint() != null && !request.getFingerprint().isBlank()) {
+                computer.setFingerprint(request.getFingerprint());
+            }
             computer = computerRepository.save(computer);
         }
 

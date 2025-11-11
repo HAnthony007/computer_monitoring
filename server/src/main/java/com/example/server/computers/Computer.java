@@ -22,6 +22,12 @@ public class Computer {
     private String hostname;
     private String ipAdress;
     private String os;
+    /**
+     * Optional stable fingerprint to uniquely identify a computer across networks.
+     * Example: primary MAC address or agent-generated UUID. When present it should be unique.
+     */
+    @Column(unique = true, nullable = true)
+    private String fingerprint;
 
     public void generateId() {
         this.idComputer = hostname.toLowerCase() + "_" + UUID.randomUUID().toString().replace("-", "").substring(8);

@@ -10,4 +10,6 @@ public interface ComputerRepository extends JpaRepository<Computer, String> {
 
     Computer findByIpAdress(String ipAddress);
 
+    Computer findByFingerprint(String fingerprint);
+
 }

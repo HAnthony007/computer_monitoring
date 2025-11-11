@@ -24,3 +24,13 @@ pub fn detect_os_string() -> String {
 }
 
 pub fn agent_version() -> String { env!("CARGO_PKG_VERSION").to_string() }
+
+/// Build a stable-ish fingerprint for this machine.
+/// Combines hostname, OS string and primary IPv4 address.
+/// Not cryptographically strong but good enough to disambiguate computers across networks.
+pub fn generate_fingerprint() -> String {
+    let host = detect_hostname();
+    let os = detect_os_string();
+    let ip = detect_ip();
+    format!("{}|{}|{}", host, os, ip)
+}

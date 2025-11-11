@@ -25,6 +25,7 @@ async fn main() -> Result<(), AgentError> {
             let ip = ip_address.unwrap_or_else(|| utils::detect_ip());
             let os_str = os.unwrap_or_else(|| utils::detect_os_string());
             let version = agent_version_opt.unwrap_or_else(|| utils::agent_version());
+            let fingerprint = utils::generate_fingerprint();
 
             let client = Client::builder()
                 .timeout(Duration::from_secs(5))
@@ -36,6 +37,7 @@ async fn main() -> Result<(), AgentError> {
                 "hostname": host,
                 "ipAddress": ip,
                 "os": os_str,
+                "fingerprint": fingerprint,
                 "agentVersion": version,
             });
             let res = client.post(url).json(&body).send().await?;
